@@ -9,18 +9,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DepartmentinfoController {
 
-      @Autowired
-      private DepartmentinfoService departmentinfoService;
+    @Autowired
+    private DepartmentinfoService departmentinfoService;
 
 
-      /**
-       * 获取所有的科室
-       * @return 所有的科室信息
-       */
-      @GetMapping("/departmentinfo/list")
-      public ResultObject list(){
-    	  return ResultObject.success(
-    	          departmentinfoService.selectAll()
-          );
-      }
+    /**
+     * 获取所有的科室
+     *
+     * @return 所有的科室信息
+     */
+    @GetMapping("/departmentinfo/list")
+    public ResultObject list() {
+        return ResultObject.success(
+                departmentinfoService.selectAll()
+        );
+    }
 }

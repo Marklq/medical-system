@@ -15,25 +15,28 @@ import java.util.List;
 public class EmpinfoController {
     @Autowired
     private EmpinfoService empinfoService;
+
     /**
      * 根据科室查询 该科室的医生
+     *
      * @param depid 部门id
      * @return
      */
     @RequestMapping("empinfo/findByDid")
-    public ResultObject findByDid(@RequestParam("id") Integer depid){
-       try {
-    	   List<Empinfo> empinfolist = empinfoService.findByDid(depid);
-    	   return ResultObject.success(empinfolist);
-       }catch (Exception e){
-           return ResultObject.error(Message.SERVER_ERROR);
-       }
+    public ResultObject findByDid(@RequestParam("id") Integer depid) {
+        try {
+            List<Empinfo> empinfolist = empinfoService.findByDid(depid);
+            return ResultObject.success(empinfolist);
+        } catch (Exception e) {
+            return ResultObject.error(Message.SERVER_ERROR);
+        }
     }
+
     /**
      * 新增科室医生
      */
     @RequestMapping("empinfo/insertEmp")
-    public ResultObject insertEmp(Empinfo empinfo){
+    public ResultObject insertEmp(Empinfo empinfo) {
         try {
             empinfoService.insertEmp(empinfo);
             return ResultObject.success("添加医生成功");

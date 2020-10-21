@@ -1,7 +1,6 @@
 package com.dzqc.cloud.dao;
 
 import com.dzqc.cloud.entity.Consultation;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

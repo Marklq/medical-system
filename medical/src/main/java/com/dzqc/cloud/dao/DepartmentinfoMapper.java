@@ -5,8 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-@Repository
 
+@Repository
 public interface DepartmentinfoMapper {
     int deleteByPrimaryKey(Integer id);
 

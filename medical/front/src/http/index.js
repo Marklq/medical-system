@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Axios from "axios";
-import { Message } from "element-ui";
+import {Message} from "element-ui";
 import store from "../store";
 import router from "../router";
 
@@ -13,6 +13,7 @@ var baseURL;
 if (process.env.NODE_ENV === "development") {
     baseURL = "/api";
     // baseURL = "http://192.168.10.103";
+    // baseURL = "http://localhost:80";
 } else if (process.env.NODE_ENV === "production") {
     baseURL = "http://39.100.14.147";
 }
@@ -27,7 +28,7 @@ instance.defaults.withCredentials = true;
 
 // 添加响应拦截器
 instance.interceptors.response.use(
-    function(response) {
+    function (response) {
         // 对响应数据做点什么，如果返回的信息是无效token的话，那么就会重新跳转到登陆页面
         if (response.data.msg === "未登录") {
             router.replace({
@@ -36,7 +37,7 @@ instance.interceptors.response.use(
         }
         return response;
     },
-    function(error) {
+    function (error) {
         // 对响应错误做点什么
         return Promise.reject(error);
     }
@@ -45,11 +46,11 @@ instance.interceptors.response.use(
 
 export default function http(url, method, params = {}, data = {}) {
     return instance({
-            url,
-            data,
-            method,
-            params,
-        })
+        url,
+        data,
+        method,
+        params,
+    })
         .then((res) => {
             console.log(res);
             if (res.status >= 200 && res.status < 300) {

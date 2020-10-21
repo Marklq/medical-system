@@ -38,7 +38,7 @@ public class SendSmsUtil {
         CommonRequest request = new CommonRequest();
         request.setSysMethod(MethodType.POST);
         request.setSysDomain("dysmsapi.aliyuncs.com");
-//        request.setSysVersion("2017-05-25");
+
         request.setSysVersion("2015-04-01");
         request.setSysAction("SendSms");
         request.putQueryParameter("RegionId", "cn-hangzhou");

@@ -7,10 +7,8 @@ import com.dzqc.cloud.service.UserService;
 import com.dzqc.cloud.util.SendSmsUtil;
 import com.dzqc.cloud.util.VerificationCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -20,8 +18,10 @@ public class UserinfoController {
     private SendSmsUtil sendSmsUtil;
     @Autowired
     private UserService userService;
+
     /**
      * 根据手机号查询用户信息
+     *
      * @return
      */
     @RequestMapping("/user/findByPhone")
@@ -43,13 +43,15 @@ public class UserinfoController {
             return ResultObject.error(Message.SERVER_ERROR);
         }
     }
+
     /**
      * 退出
+     *
      * @param request
      * @returnd
      */
     @RequestMapping("/shiro/logout")
-    public ResultObject logout(HttpServletRequest request){
+    public ResultObject logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.removeAttribute("userinfo");
         return ResultObject.success("成功注销");
@@ -57,39 +59,41 @@ public class UserinfoController {
 
     /**
      * 用户登陆
+     *
      * @param phone 手机号
-     * @param code 验证码
+     * @param code  验证码
      * @return
      */
     @PostMapping("/shiro/login")
-    public ResultObject login(String phone,String code,HttpServletRequest request){
+    public ResultObject login(String phone, String code, HttpServletRequest request) {
 
         HttpSession session = request.getSession();
         //从session中获取验证码
-        String sessionCode = (String)session.getAttribute(phone);
+        String sessionCode = (String) session.getAttribute(phone);
         //对验证码进行校验
-        if(sessionCode != null && sessionCode.equals(code)){
+        if (sessionCode != null && sessionCode.equals(code)) {
             Userinfo userinfo = userService.selectByPhone(phone);
-            if(userinfo == null){
+            if (userinfo == null) {
                 return ResultObject.error("号码未注册，请联系管理员");
-            }else{
-                session.setAttribute("userinfo",userinfo);
+            } else {
+                session.setAttribute("userinfo", userinfo);
                 return ResultObject.success(userinfo);
             }
-        }else{
+        } else {
             return ResultObject.error("验证码错误或者已经过期");
         }
     }
 
     /**
      * 发送验证码
+     *
      * @param phone 手机号
      * @return
      */
-    @RequestMapping(value = "/shiro/getCode",method = RequestMethod.GET)
-    public ResultObject sendSms(String phone, HttpServletRequest request){
-        Userinfo userinfo=userService.selectByPhone(phone);
-        if(userinfo != null) {
+    @GetMapping(value = "/shiro/getCode")
+    public ResultObject sendSms(String phone, HttpServletRequest request) {
+        Userinfo userinfo = userService.selectByPhone(phone);
+        if (userinfo != null) {
             HttpSession session = request.getSession();
             //随机生成验证码
             String numeral = VerificationCode.getNumeral();
@@ -101,11 +105,11 @@ public class UserinfoController {
             /*if (information.equals("ok")) {
                 return ResultObject.success(numeral);
             }*/
-            if (numeral!=null){
-                 return ResultObject.success(numeral);
+            if (numeral != null || numeral.equals("")) {
+                return ResultObject.success(numeral);
             }
             return ResultObject.error("手机验证码发送失败");
-        }else{
+        } else {
             return ResultObject.error("号码未注册，请联系管理员");
         }
     }
